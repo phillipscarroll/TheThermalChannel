@@ -136,52 +136,69 @@
         </section>
 
         <section id="220w">
-            <h1>220w | 0.8764 watts per mm sq</h1>
-            <table id="220wtable">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable(0, '220wtable')">Name</th>
-                        <th onclick="sortTable(1, '220wtable')">Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Gamma</td><td>15</td></tr>
-                    <tr><td>Alpha</td><td>10</td></tr>
-                    <tr><td>Beta</td><td>20</td></tr>
-                </tbody>
-            </table>
-        </section>
+            <h1>GPU Thermal Density</h1>
 
-        <section id="260w">
-            <h1>260w | 1.0358 watts per mm sq</h1>
-            <table id="260wtable">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable(0, 'table2')">Category</th>
-                        <th onclick="sortTable(1, 'table2')">Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Zeta</td><td>50</td></tr>
-                    <tr><td>Epsilon</td><td>40</td></tr>
-                    <tr><td>Delta</td><td>60</td></tr>
-                </tbody>
-            </table>
-        </section>
+            <p>Looking at wattage is not a great indicator of how easy or hard it will be to cool a GPU. 300 watts on a small die is nearly impossible to cool vs 300 watts on a large die if the coolers are the same size. I will often use 'Watts Per mm Squared' as a good starting point to understand what type of cooling performance a GPU die will require and in a lot of cases which thermal paste/interface I will plan on using.</p>
+            
+            <p>Watts Per mm Squared = TDP / Dia Area mm</p>
 
-        <section id="300w">
-            <h1>300w | 1.1952 watts per mm sq</h1>
-            <table id="300wtable">
+            <p>As you approach .8 Watts Per mm Squared high performance coolers are required. Over 1.0 Watts Per mm Squared is typically what you see in overclocked power limit raised profiles.</p>
+            <table id="density">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0, 'table2')">Category</th>
-                        <th onclick="sortTable(1, 'table2')">Score</th>
+                        <th onclick="sortTable(0, 'density')">GPU Die</th>
+                        <th onclick="sortTable(1, 'density')">Die Area mm</th>
+                        <th onclick="sortTable(2, 'density')">TDP Watts</th>
+                        <th onclick="sortTable(3, 'density')">Watts Per mm Squared</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Zeta</td><td>50</td></tr>
-                    <tr><td>Epsilon</td><td>40</td></tr>
-                    <tr><td>Delta</td><td>60</td></tr>
+                    <tr><td>RTX 3060</td><td>276</td><td>170</td><td>0.6159</td></tr>
+                    <tr><td>RTX 4060</td><td>159</td><td>115</td><td>0.7232</td></tr>
+                    <tr><td>GTX 1650</td><td>200</td><td>75</td><td>0.3750</td></tr>
+                    <tr><td>RTX 3060 Ti</td><td>392</td><td>200</td><td>0.5102</td></tr>
+                    <tr><td>RTX 4060 Ti</td><td>188</td><td>160</td><td>0.8510</td></tr>
+                    <tr><td>RTX 3070</td><td>392</td><td>220</td><td>0.5612</td></tr>
+                    <tr><td>RTX 3050</td><td>276</td><td>130</td><td>0.4710</td></tr>
+                    <tr><td>RTX 2060</td><td>445</td><td>160</td><td>0.3595</td></tr>
+                    <tr><td>GTX 1060</td><td>200</td><td>120</td><td>0.6000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+                    <tr><td>CHANGE</td><td>000</td><td>000</td><td>000</td></tr>
+
                 </tbody>
             </table>
         </section>
