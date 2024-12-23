@@ -71,18 +71,53 @@
         }
     </style>
     <script>
-        // Table Sorting Script
-        function sortTable(n, tableId) {
+        // Global object to keep track of sort direction for each column
+        let sortDirections = {};
+
+        // Define the sortTable function
+        function sortTable(columnIndex, tableId) {
             const table = document.getElementById(tableId);
-            const rows = Array.from(table.rows).slice(1); // Skip header row
-            const isNumeric = !isNaN(rows[0].cells[n].innerText);
-            rows.sort((a, b) => {
-                const aValue = a.cells[n].innerText;
-                const bValue = b.cells[n].innerText;
-                return isNumeric ? aValue - bValue : aValue.localeCompare(bValue);
-            });
-            rows.forEach(row => table.appendChild(row));
+            let rows, switching, i, x, y, shouldSwitch;
+            switching = true;
+
+            // Initialize sort direction for the column if not already set
+            if (sortDirections[columnIndex] === undefined) {
+                sortDirections[columnIndex] = true; // true for ascending, false for descending
+            } else {
+                // Toggle sort direction
+                sortDirections[columnIndex] = !sortDirections[columnIndex];
+            }
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                    if (sortDirections[columnIndex]) {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
         }
+
+        // Call sortTable when the page loads
+        window.onload = function() {
+            sortTable(3, 'density');
+        };
     </script>
 </head>
 <body>
@@ -178,8 +213,8 @@
                     <tr><td>GTX 1060</td><td>200</td><td>120</td><td>0.6000</td></tr>
                     <tr><td>Vega 64</td><td>495</td><td>295</td><td>0.5959</td></tr>
                     <tr><td>GTX 1080</td><td>314</td><td>180</td><td>0.5732</td></tr>
-                    <tr><td>GTX 1050</td><td>132</td><td>75</td><td>0.5681</td></tr>
-                    <tr><td>GTX 1050 Ti</td><td>132</td><td>75</td><td>0.5681</td></tr>
+                    <tr><td>GTX 1050</td><td>132</td><td>075</td><td>0.5681</td></tr>
+                    <tr><td>GTX 1050 Ti</td><td>132</td><td>075</td><td>0.5681</td></tr>
                     <tr><td>RX 7900 XT</td><td>529</td><td>300</td><td>0.5671</td></tr>
                     <tr><td>RTX 3070</td><td>392</td><td>220</td><td>0.5612</td></tr>
                     <tr><td>RTX 3080 Ti</td><td>628</td><td>350</td><td>0.5573</td></tr>
@@ -204,7 +239,7 @@
                     <tr><td>RTX 2080</td><td>545</td><td>215</td><td>0.3944</td></tr>
                     <tr><td>RTX 2060 SUPER</td><td>445</td><td>175</td><td>0.3932</td></tr>
                     <tr><td>RTX 2070</td><td>445</td><td>175</td><td>0.3932</td></tr>
-                    <tr><td>GTX 1650</td><td>200</td><td>75</td><td>0.3750</td></tr>
+                    <tr><td>GTX 1650</td><td>200</td><td>075</td><td>0.3750</td></tr>
                     <tr><td>RTX 2060</td><td>445</td><td>160</td><td>0.3595</td></tr>
                     <tr><td>RX 7900 XTX</td><td>529</td><td>355</td><td>0.6710</td></tr>
                     <tr><td>RX 5700 XT</td><td>251</td><td>225</td><td>0.8964</td></tr>

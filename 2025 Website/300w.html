@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Thermal Channel - Independent Thermal Testing</title>
+    <style>
+        /* General Styles */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #9b9b9b;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #222;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 70px; /* Offset for fixed header */
+            padding: 20px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #222;
+            cursor: pointer;
+        }
+
+        th:hover {
+            background-color: #333;
+        }
+        h1 {
+            color: rgb(216, 216, 216);
+        }
+    </style>
+    <script>
+        // Global object to keep track of sort direction for each column
+        let sortDirections = {};
+
+        // Define the sortTable function
+        function sortTable(columnIndex, tableId) {
+            const table = document.getElementById(tableId);
+            let rows, switching, i, x, y, shouldSwitch;
+            switching = true;
+
+            // Initialize sort direction for the column if not already set
+            if (sortDirections[columnIndex] === undefined) {
+                sortDirections[columnIndex] = true; // true for ascending, false for descending
+            } else {
+                // Toggle sort direction
+                sortDirections[columnIndex] = !sortDirections[columnIndex];
+            }
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                    if (sortDirections[columnIndex]) {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+
+        // Call sortTable when the page loads
+        window.onload = function() {
+            sortTable(7, '220wtable');
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            Root:
+            <a href="https://thethermalchannel.com/">Home</a> | 
+            <a href="https://www.youtube.com/@The_Thermal_Channel">Youtube</a> | 
+            <a href="https://github.com/phillipscarroll">Github</a> | 
+            <a href="#why">Why</a> | 
+            <a href="#pou">PoU</a>
+        </nav>
+        <br>
+        <nav>
+            Benchmarks & Tests:
+            <a href="220w.html">220w</a> | 
+            <a href="260w.html">260w</a> | 
+            <a href="300w.html">300w</a> | 
+            <a href="ltt.html">Longterm</a> | 
+            <a href="setup.html">Setup</a> | 
+            <a href="density.html">Density Chart</a>
+        </nav>
+        <br>
+        <nav>
+            Tier Charts:
+            <a href="optier.html">Opinion Based</a> | 
+            <a href="perftier.html">Performance Based</a>
+        </nav>
+        <br>
+        <nav>
+            Machine Learning:
+            <a href="cudaqs.html">Cuda Quickstart</a> | 
+            <a href="xpuqs.html">XPU Quickstart</a> | 
+            <a href="rocmqs.html">ROCm Quickstart</a> | 
+            <a href="mlbenchmark.html">PyTorch Benchmark</a>
+        </nav>
+        <br>
+        <nav>
+            Interesting Things:
+            <a href="https://www.youtube.com/@snarksdomain">Snarks Domain</a> | 
+            <a href="https://www.youtube.com/@TheDataDaddi">TheDataDaddi</a>
+        </nav>
+    </header>
+    <br><br><br><br><br><br>
+    <main>
+        <section>
+            <font size="72"><a href="https://thethermalchannel.com/">The Thermal Channel</a></font>
+            <br>
+            Independent Thermal Testing
+            <br><br>
+        </section>
+
+        <section id="220w">
+            <h1>300w | 1.1952 watts per mm sq</h1>
+            <table id="220wtable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0, '220wtable')">Manufacturer</th>
+                        <th onclick="sortTable(1, '220wtable')">Thermal Interface</th>
+                        <th onclick="sortTable(2, '220wtable')">Wattage</th>
+                        <th onclick="sortTable(3, '220wtable')">Die mm/sq</th>
+                        <th onclick="sortTable(4, '220wtable')">Watt mm/sq</th>
+                        <th onclick="sortTable(5, '220wtable')">GPU Over Ambient c</th>
+                        <th onclick="sortTable(6, '220wtable')">Hotspot Over Ambient c</th>
+                        <th onclick="sortTable(7, '220wtable')">Sum Over Ambient c</th>
+                        <th onclick="sortTable(8, '220wtable')">Testing Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Arctic</td>
+                    <td>Arctic MX-4</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>77.8</td>
+                    <td>130.6</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Arctic</td>
+                    <td>Arctic MX-6</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.8</td>
+                    <td>78.8</td>
+                    <td>130.6</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Arctic Silver</td>
+                    <td>Arctic Silver 5</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.9</td>
+                    <td>81.9</td>
+                    <td>134.8</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Bitspower</td>
+                    <td>Bitspower TP-1</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>77.8</td>
+                    <td>130.6</td>
+                    <td><a href="https://youtu.be/3FTXWk5aLJQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Cool Moon</td>
+                    <td>Cool Moon MT8</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.8</td>
+                    <td>83.8</td>
+                    <td>138.6</td>
+                    <td><a href="https://youtu.be/-iEVLRkt2lQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Cooler Master</td>
+                    <td>Cooler Master CryoFuze</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>76.8</td>
+                    <td>129.6</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>FEHONDA</td>
+                    <td>FEHONDA TR50L</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.1</td>
+                    <td>84.1</td>
+                    <td>137.2</td>
+                    <td><a href="https://youtu.be/E8NWHTTtxdo">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>GD</td>
+                    <td>GD-2</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.1</td>
+                    <td>80.1</td>
+                    <td>133.2</td>
+                    <td><a href="https://youtu.be/ffrHGRS6pP4">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>GD</td>
+                    <td>GD900</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.9</td>
+                    <td>84.9</td>
+                    <td>138.8</td>
+                    <td><a href="https://www.youtube.com/watch?v=o0Y_BU81_Do">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Gelid</td>
+                    <td>Gelid GC-Extreme</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>55.1</td>
+                    <td>84.1</td>
+                    <td>139.2</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY-P11</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>55.8</td>
+                    <td>74.8</td>
+                    <td>130.6</td>
+                    <td><a href="https://youtu.be/-iEVLRkt2lQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY-P13</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.8</td>
+                    <td>80.8</td>
+                    <td>135.6</td>
+                    <td><a href="https://youtu.be/Ax28S_UKaCo">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY-P14</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.5</td>
+                    <td>82.5</td>
+                    <td>135</td>
+                    <td><a href="https://youtu.be/Ax28S_UKaCo">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY-P15</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.2</td>
+                    <td>78.2</td>
+                    <td>131.4</td>
+                    <td><a href="https://youtu.be/-iEVLRkt2lQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY-P16</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.9</td>
+                    <td>82.9</td>
+                    <td>136.8</td>
+                    <td><a href="https://youtu.be/0CdSPLYB3RQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY880</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.2</td>
+                    <td>84.2</td>
+                    <td>138.4</td>
+                    <td><a href="https://youtu.be/y8VwXkUY3Qw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY881</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.1</td>
+                    <td>84.1</td>
+                    <td>138.2</td>
+                    <td><a href="https://youtu.be/Ax28S_UKaCo">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Halnziye</td>
+                    <td>Halnziye HY883</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.9</td>
+                    <td>79.9</td>
+                    <td>133.8</td>
+                    <td><a href="https://youtu.be/sCF97hQUQ-k">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Honeywell</td>
+                    <td>Honeywell PTM 7950</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.7</td>
+                    <td>77.7</td>
+                    <td>130.4</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Honeywell</td>
+                    <td>Honeywell PTM7950-SP</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>78.8</td>
+                    <td>131.6</td>
+                    <td><a href="https://youtu.be/-KSnPt09MSM">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Honeywell</td>
+                    <td>Honeywell PTM7958-SP</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.4</td>
+                    <td>79.4</td>
+                    <td>131.8</td>
+                    <td><a href="https://youtu.be/-KSnPt09MSM">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Iceberg</td>
+                    <td>Iceberg Fuzeice</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.8</td>
+                    <td>79.8</td>
+                    <td>133.6</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Iceberg</td>
+                    <td>Iceberg Fuzeice Plus</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>76.8</td>
+                    <td>129.6</td>
+                    <td><a href="https://youtu.be/5IZZOa7n5xI">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Kingpin Kooling</td>
+                    <td>Kingpin Kooling KPx</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54</td>
+                    <td>80</td>
+                    <td>134</td>
+                    <td><a href="https://youtu.be/sCF97hQUQ-k">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Kooling Monster</td>
+                    <td>Kooling Monster KOLD-01</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>78.8</td>
+                    <td>131.6</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>LK</td>
+                    <td>LK-17</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.9</td>
+                    <td>81.9</td>
+                    <td>135.8</td>
+                    <td><a href="https://youtu.be/Ax28S_UKaCo">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>MJTech</td>
+                    <td>MJTech M12</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>56.9</td>
+                    <td>86.9</td>
+                    <td>143.8</td>
+                    <td><a href="https://youtu.be/-iEVLRkt2lQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Noctua</td>
+                    <td>Noctua NT-H1</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.9</td>
+                    <td>75.9</td>
+                    <td>127.8</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Noctua</td>
+                    <td>Noctua NT-H2</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.8</td>
+                    <td>76.8</td>
+                    <td>130.6</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Nuomi</td>
+                    <td>Nuomi BS-139</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.9</td>
+                    <td>77.9</td>
+                    <td>130.8</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Nuomi</td>
+                    <td>Nuomi SYY-157</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54</td>
+                    <td>79</td>
+                    <td>133</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Nuomi</td>
+                    <td>Nuomi TP-133</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.5</td>
+                    <td>77.5</td>
+                    <td>129</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Sub Zero</td>
+                    <td>Sub Zero C13</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.3</td>
+                    <td>80.3</td>
+                    <td>132.6</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Sub Zero</td>
+                    <td>Sub Zero C14</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.7</td>
+                    <td>81.7</td>
+                    <td>136.4</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Sub Zero</td>
+                    <td>Sub Zero C15</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.9</td>
+                    <td>78.9</td>
+                    <td>131.8</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Hydronaut</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.6</td>
+                    <td>77.6</td>
+                    <td>131.2</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Kryonaut</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>77.8</td>
+                    <td>130.6</td>
+                    <td><a href="https://youtu.be/_Wf_g7Pfiuw">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Kryosheet 38x38</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.9</td>
+                    <td>74.9</td>
+                    <td>126.8</td>
+                    <td><a href="https://youtube.com/live/Lmg0O7WMAC8">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright TF-7</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>76.8</td>
+                    <td>129.6</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright TF-8</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.1</td>
+                    <td>82.1</td>
+                    <td>136.2</td>
+                    <td><a href="https://youtu.be/Ax28S_UKaCo">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright TF-9</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52</td>
+                    <td>79</td>
+                    <td>131</td>
+                    <td><a href="https://youtu.be/-iEVLRkt2lQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Upsiren</td>
+                    <td>Upsiren LMTG100</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>50.7</td>
+                    <td>72.7</td>
+                    <td>123.4</td>
+                    <td><a href="https://youtu.be/oQjCLxoYO8E">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Upsiren</td>
+                    <td>Upsiren UTG-X</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54</td>
+                    <td>79</td>
+                    <td>133</td>
+                    <td><a href="https://youtu.be/gH5N8fUbqwE">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>be quiet!</td>
+                    <td>be quiet! DC2</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.8</td>
+                    <td>79.8</td>
+                    <td>131.6</td>
+                    <td><a href="https://youtu.be/_9WbDi9uyGg">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>be quiet!</td>
+                    <td>be quiet! DC2 Pro</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>50.5</td>
+                    <td>73.5</td>
+                    <td>124</td>
+                    <td><a href="https://youtu.be/sCF97hQUQ-k">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright Heilos</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>49.5</td>
+                    <td>74.5</td>
+                    <td>124</td>
+                    <td><a href="https://youtu.be/_ydgu2q_7FI">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright Heilos V2</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.2</td>
+                    <td>74.2</td>
+                    <td>125.4</td>
+                    <td><a href="https://www.youtube.com/watch?v=IpZtMKxr3kM">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Conductonaut Extreme</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>47.7</td>
+                    <td>70.7</td>
+                    <td>118.4</td>
+                    <td><a href="https://youtu.be/7khjJhXfjOU">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Conductonaut</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>47.1</td>
+                    <td>71.1</td>
+                    <td>118.2</td>
+                    <td><a href="https://youtu.be/c7QUxAQlYfQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Phasesheet</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>50.2</td>
+                    <td>76.2</td>
+                    <td>126.4</td>
+                    <td><a href="https://youtu.be/ChxlbgSN1BU">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Aeronaut</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>57.9</td>
+                    <td>87.9</td>
+                    <td>145.8</td>
+                    <td><a href="https://youtu.be/-UlG_xuBu2Q">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Thermal Grizzly Kryonaut Extreme</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.8</td>
+                    <td>76.8</td>
+                    <td>128.6</td>
+                    <td><a href="https://youtu.be/vqmTLpZYWtA">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>LK</td>
+                    <td>LK-15</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.7</td>
+                    <td>80.7</td>
+                    <td>134.4</td>
+                    <td><a href="https://www.youtube.com/watch?v=fHFzFcSGBDM">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal Grizzly</td>
+                    <td>Forbidden Stack - Kryosheet + Conductonaut Extreme</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>49.8</td>
+                    <td>73.8</td>
+                    <td>123.6</td>
+                    <td><a href="https://www.youtube.com/watch?v=fHFzFcSGBDM">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Polartherm</td>
+                    <td>Polartherm X-8</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.6</td>
+                    <td>80.6</td>
+                    <td>134.2</td>
+                    <td><a href="https://www.youtube.com/watch?v=fHFzFcSGBDM">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Polartherm</td>
+                    <td>Polartherm X-10</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>50.8</td>
+                    <td>77.8</td>
+                    <td>128.6</td>
+                    <td><a href="https://www.youtube.com/watch?v=fHFzFcSGBDM">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Tishric</td>
+                    <td>Tishric T12-3</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.8</td>
+                    <td>79.8</td>
+                    <td>132.6</td>
+                    <td><a href="https://www.youtube.com/watch?v=xKSkXnx9I6A">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Snowman</td>
+                    <td>Snowman MTG10</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>55.3</td>
+                    <td>84.3</td>
+                    <td>139.6</td>
+                    <td><a href="https://youtu.be/I-bT-vV714s">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Wovibo</td>
+                    <td>Wovibo WB-4</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.5</td>
+                    <td>78.5</td>
+                    <td>130</td>
+                    <td><a href="https://youtu.be/JUcZK6JKSK8">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Adegrees</td>
+                    <td>Adegrees NB-4</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>52.3</td>
+                    <td>79.3</td>
+                    <td>131.6</td>
+                    <td><a href="https://www.youtube.com/live/uKmsrr1pfHI">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright Silverking</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>49.8</td>
+                    <td>75.8</td>
+                    <td>125.6</td>
+                    <td><a href="https://youtu.be/G1hTagvCW2o">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright TFX</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>53.2</td>
+                    <td>81.2</td>
+                    <td>134.4</td>
+                    <td><a href="https://youtu.be/7LoU6IzB3Hc">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright TF8 EX</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.1</td>
+                    <td>80.1</td>
+                    <td>134.2</td>
+                    <td><a href="https://youtu.be/c80w1S8lzYU">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermalright</td>
+                    <td>Thermalright TF4</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>54.1</td>
+                    <td>83.1</td>
+                    <td>137.2</td>
+                    <td><a href="https://youtube.com/live/JJVpsN2Knws">Link to test</a></td>
+                  </tr>
+                  <tr>
+                    <td>Meta Online</td>
+                    <td>Meta Online Liquid Metal</td>
+                    <td>300</td>
+                    <td>251</td>
+                    <td>1.1952</td>
+                    <td>51.3</td>
+                    <td>73.3</td>
+                    <td>124.6</td>
+                    <td><a href="https://youtu.be/BaoldP-0gjQ">Link to test</a></td>
+                  </tr>
+                  <tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+            <center><a href="https://thethermalchannel.com/">thethermalchannel.com</a> | <a href="https://www.youtube.com/@The_Thermal_Channel">Youtube</a> | <a href="https://github.com/phillipscarroll">Github</a> | For inquiries contact us through our Youtube channel</center><br>
+            <center><font size=1>Copyright who cares | All rights are something | This is a thermal paste website do what you want its not that serious</font></center><br>
+            <div class="blurb">
+                <center><script type="text/javascript" src="https://counter.websiteout.com/js/8/0/0/0"></script></center>
+            </div>
+    </footer>
+</body>
+</html>
+
