@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Thermal Channel - Independent Thermal Testing</title>
+    <style>
+        /* General Styles */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #9b9b9b;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #222;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 70px; /* Offset for fixed header */
+            padding: 20px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #222;
+            cursor: pointer;
+        }
+
+        th:hover {
+            background-color: #333;
+        }
+        h1 {
+            color: rgb(216, 216, 216);
+        }
+    </style>
+    <script>
+        // Table Sorting Script
+        function sortTable(n, tableId) {
+            const table = document.getElementById(tableId);
+            const rows = Array.from(table.rows).slice(1); // Skip header row
+            const isNumeric = !isNaN(rows[0].cells[n].innerText);
+            rows.sort((a, b) => {
+                const aValue = a.cells[n].innerText;
+                const bValue = b.cells[n].innerText;
+                return isNumeric ? aValue - bValue : aValue.localeCompare(bValue);
+            });
+            rows.forEach(row => table.appendChild(row));
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            Root:
+            <a href="https://thethermalchannel.com/">Home</a> | 
+            <a href="https://www.youtube.com/@The_Thermal_Channel">Youtube</a> | 
+            <a href="https://github.com/phillipscarroll">Github</a> | 
+            <a href="#why">Why</a> | 
+            <a href="#pou">PoU</a>
+        </nav>
+        <br>
+        <nav>
+            Benchmarks & Tests:
+            <a href="220w.html">220w</a> | 
+            <a href="260w.html">260w</a> | 
+            <a href="300w.html">300w</a> | 
+            <a href="ltt.html">Longterm</a> | 
+            <a href="setup.html">Setup</a> | 
+            <a href="density.html">Density Chart</a>
+        </nav>
+        <br>
+        <nav>
+            Tier Charts:
+            <a href="optier.html">Opinion Based</a> | 
+            <a href="perftier.html">Performance Based</a>
+        </nav>
+        <br>
+        <nav>
+            Machine Learning:
+            <a href="cudaqs.html">Cuda Quickstart</a> | 
+            <a href="xpuqs.html">XPU Quickstart</a> | 
+            <a href="rocmqs.html">ROCm Quickstart</a> | 
+            <a href="mlbenchmark.html">PyTorch Benchmark</a>
+        </nav>
+        <br>
+        <nav>
+            Interesting Things:
+            <a href="https://www.youtube.com/@snarksdomain">Snarks Domain</a> | 
+            <a href="https://www.youtube.com/@TheDataDaddi">TheDataDaddi</a>
+        </nav>
+    </header>
+    <br><br><br><br><br><br>
+    <main>
+        <section>
+            <font size="72"><a href="https://thethermalchannel.com/">The Thermal Channel</a></font>
+            <br>
+            Independent Thermal Testing
+            <br><br>
+        </section>
+
+        <section id="220w">
+            <h1>220w | 0.8764 watts per mm sq</h1>
+            <table id="220wtable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0, '220wtable')">Manufacturer</th>
+                        <th onclick="sortTable(0, '220wtable')">Thermal Interface</th>
+                        <th onclick="sortTable(0, '220wtable')">Wattage</th>
+                        <th onclick="sortTable(0, '220wtable')">Die mm/sq</th>
+                        <th onclick="sortTable(0, '220wtable')">Watt mm/sq</th>
+                        <th onclick="sortTable(0, '220wtable')">GPU Over Ambient c</th>
+                        <th onclick="sortTable(0, '220wtable')">Hotspot Over Ambient c</th>
+                        <th onclick="sortTable(0, '220wtable')">Sum Over Ambient c</th>
+                        <th onclick="sortTable(0, '220wtable')">Testing Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Gamma</td><td>15</td></tr>
+                    <tr><td>Alpha</td><td>10</td></tr>
+                    <tr><td>Beta</td><td>20</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+            <center><a href="https://thethermalchannel.com/">thethermalchannel.com</a> | <a href="https://www.youtube.com/@The_Thermal_Channel">Youtube</a> | <a href="https://github.com/phillipscarroll">Github</a> | For inquiries contact us through our Youtube channel</center><br>
+            <center><font size=1>Copyright who cares | All rights are something | This is a thermal paste website do what you want its not that serious</font></center><br>
+            <div class="blurb">
+                <center><script type="text/javascript" src="https://counter.websiteout.com/js/8/0/0/0"></script></center>
+            </div>
+    </footer>
+</body>
+</html>
+
